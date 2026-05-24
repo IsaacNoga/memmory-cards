@@ -1,39 +1,6 @@
 ---
 import Layout from "../../layouts/Layout.astro";
-import Card from "../../components/Card";
-export interface ICard {
-  id: number;
-  img: string;
-  state: "DOWN" | "PAIRING" | "PAIRED" | "DISABLED";
-  idPair: number | null;
-}
-
-const baseCards: ICard[] = [
-  {
-    id: 1,
-    img: "star.svg",
-    state: "DOWN",
-    idPair: null,
-  },
-  {
-    id: 2,
-    img: "moon.svg",
-    state: "DOWN",
-    idPair: null,
-  },
-  {
-    id: 3,
-    img: "sun.svg",
-    state: "DOWN",
-    idPair: null,
-  },
-  {
-    id: 4,
-    img: "comet.svg",
-    state: "DOWN",
-    idPair: null,
-  },
-];
+import Board from "../../components/Board";
 ---
 
 <Layout>
@@ -41,9 +8,6 @@ const baseCards: ICard[] = [
     <div class="w-full pt-4">
       <p class="text-white w-full text-6xl font-semibold">Game start</p>
     </div>
-    <div class="w-full grid grid-cols-4 gap-3 md:gap-20 p-2">
-      {baseCards.map((c) => <Card {...c} />)}
-      {baseCards.map((c) => <Card {...c} />)}
-    </div>
+    <Board client:load />
   </div>
 </Layout>
