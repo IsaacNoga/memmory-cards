@@ -4,12 +4,12 @@ import Layout from "../layouts/Layout.astro";
 
 <Layout>
   <div class="w-full h-full flex flex-col items-center justify-center">
-    <div class="w-full flex flex-row justify-center">
+    <div class="w-full flex flex-row justify-center slide-down">
       <img src="logo.svg" class="w-4/5 md:w-1/5" />
     </div>
-    <div class="w-full flex flex-row justify-center p-6">
+    <div class="w-full flex flex-row justify-center p-6 slide-up">
       <a
-        class="w-4/5 md:w-1/5 bg-yellow-400 px-6 py-4 text-5xl font-semibold rounded-2xl text-white text-center"
+        class="w-4/5 md:w-1/5 bg-yellow-400 px-6 py-4 text-5xl font-semibold rounded-2xl text-white text-center hover:animate-bounce"
         href="/board?origin=start"
       >
         START
