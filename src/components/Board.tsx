@@ -1,5 +1,6 @@
 import React, { useMemo, useState } from "react";
 import Card, { type ICard } from "./Card";
+import Modal from "./Modal";
 
 export interface ICards {
   id: string | null;
@@ -61,6 +62,7 @@ function generateDeck(): ICards[] {
 
 const Board = () => {
   const [deck, setDeck] = useState(generateDeck());
+  const [showModal, setShowModal] = useState<"SUCCESS" | "ERROR" | null>(null);
 
   const handleCardClick = (cardId: string) => {
     setDeck((prev) => {
@@ -74,11 +76,14 @@ const Board = () => {
           prevPairing.idPair === card.id || card.idPair === prevPairing.id;
 
         if (isMatch) {
+          setShowModal("SUCCESS");
           return prev.map((c) =>
             c.id === prevPairing.id || c.id === card.id
               ? { ...c, state: "PAIRED" }
               : c,
           );
+        } else {
+          setShowModal("ERROR");
         }
 
         setTimeout(() => {
@@ -107,10 +112,17 @@ const Board = () => {
   };
 
   return (
-    <div className="w-full grid grid-cols-4 gap-3 md:gap-20 p-2">
-      {deck.map((c) => (
-        <Card onClick={() => handleCardClick(c.id ?? "")} key={c?.id} {...c} />
-      ))}
+    <div className="w-full h-full">
+      <Modal type={showModal} onClose={() => setShowModal(null)} />
+      <div className="w-full grid grid-cols-4 gap-3 md:gap-20 p-2">
+        {deck.map((c) => (
+          <Card
+            onClick={() => handleCardClick(c.id ?? "")}
+            key={c?.id}
+            {...c}
+          />
+        ))}
+      </div>
     </div>
   );
 };
