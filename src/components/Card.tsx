@@ -6,11 +6,11 @@ export interface ICard {
 }
 
 const Card = ({ img, state = "DOWN", onClick }: ICard) => {
-  const flipped = state !== "DOWN";
+  const flipped = state === "PAIRED" || state === "PAIRING";
 
   return (
     <button
-      onClick={onClick}
+      onClick={() => (state !== "DOWN" ? null : onClick())}
       className="w-full h-38 md:h-66 perspective cursor-pointer"
     >
       <div
