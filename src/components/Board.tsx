@@ -1,6 +1,7 @@
 import React, { useMemo, useState } from "react";
 import Card, { type ICard } from "./Card";
 import Modal from "./Modal";
+import SoundButton from "./SoundButton";
 
 export interface ICards {
   id: string | null;
@@ -62,6 +63,7 @@ function generateDeck(): ICards[] {
 
 const Board = () => {
   const [deck, setDeck] = useState(generateDeck());
+  const [allowPlaying, setAllowPlaying] = useState<boolean>(false);
   const [showModal, setShowModal] = useState<"SUCCESS" | "ERROR" | null>(null);
 
   const handleCardClick = (cardId: string) => {
@@ -113,8 +115,15 @@ const Board = () => {
 
   return (
     <div className="w-full h-full">
-      <Modal type={showModal} onClose={() => setShowModal(null)} />
-      <div className="w-full grid grid-cols-4 gap-3 md:gap-20 p-2">
+      <div>
+        <SoundButton canPlay={setAllowPlaying} />
+      </div>
+      <Modal
+        type={showModal}
+        onClose={() => setShowModal(null)}
+        soundStatus={allowPlaying}
+      />
+      <div className="w-full grid grid-cols-4 gap-1 sm:gap-3 md:gap-10 lg:gap-20 sm:p-2">
         {deck.map((c) => (
           <Card
             onClick={() => handleCardClick(c.id ?? "")}
