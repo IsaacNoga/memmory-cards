@@ -6,19 +6,27 @@ export interface ICard {
 }
 
 const Card = ({ img, state = "DOWN", onClick }: ICard) => {
+  const flipped = state !== "DOWN";
+
   return (
-    <div
+    <button
       onClick={onClick}
-      className="w-full h-38 md:h-66 grid-cols-1 flex flex-row items-center p-2 bg-blue-400 hover:bg-blue-600 border-6 border-yellow-400 rounded-xl transition-colors ease-in-out cursor-pointer"
+      className="w-full h-38 md:h-66 perspective cursor-pointer"
     >
-      {state !== "DOWN" ? (
-        <img src={img} />
-      ) : (
-        <p className="text-6xl md:text-9xl text-center w-full text-yellow-500">
-          ?
-        </p>
-      )}
-    </div>
+      <div
+        className={`
+          relative w-full h-full duration-500 transition-transform preserve-3d
+          ${flipped ? "rotate-y-180" : ""}
+        `}
+      >
+        <div className="absolute inset-0 backface-hidden flex items-center justify-center bg-blue-400 hover:bg-blue-600 border-6 border-yellow-400 rounded-xl">
+          <p className="text-6xl md:text-9xl text-yellow-500">?</p>
+        </div>
+        <div className="absolute inset-0 rotate-y-180 backface-hidden flex items-center justify-center bg-blue-400 border-6 border-yellow-400 rounded-xl">
+          <img src={img} className="w-16 md:w-24" />
+        </div>
+      </div>
+    </button>
   );
 };
 
