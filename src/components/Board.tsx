@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import Card, { type ICard } from "./Card";
 import Modal from "./Modal";
 import SoundButton from "./SoundButton";
@@ -63,9 +63,14 @@ function generateDeck(): ICards[] {
 }
 
 const Board = () => {
-  const { currentTime } = useTimer(30);
+  const [timerStatus, setTimerStatus] = useState<"running" | "paused">(
+    "running",
+  );
+  const { currentTime } = useTimer(30, timerStatus);
   const [deck, setDeck] = useState(generateDeck());
-  const [gameStatus, setGameStatus] = useState();
+  const [gameStatus, setGameStatus] = useState<
+    "PLAYING" | "SUCCESS" | "LOSE" | "ERROR" | null
+  >("PLAYING");
   const [allowPlaying, setAllowPlaying] = useState<boolean>(false);
   const [showModal, setShowModal] = useState<"SUCCESS" | "ERROR" | null>(null);
 
@@ -115,6 +120,18 @@ const Board = () => {
       );
     });
   };
+
+  useEffect(() => {
+    const allPaired = deck.every((c) => c.state === "PAIRED");
+    if (allPaired && currentTime > 0) {
+      setGameStatus("SUCCESS");
+      setTimerStatus("paused");
+    }
+    if (!allPaired && currentTime === 0) {
+      setTimerStatus("paused");
+      setGameStatus("LOSE");
+    }
+  }, [deck, currentTime]);
 
   return (
     <div className="w-full h-full flex flex-col gap-6">

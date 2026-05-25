@@ -1,28 +1,38 @@
 import { useEffect, useRef, useState } from "react";
 
-const useTimer = (seconds: number, onEnd?: () => void) => {
+interface IuseTimer {
+  seconds: number;
+  status: "running" | "paused";
+}
+
+const useTimer = (
+  seconds: number,
+  status: "running" | "paused" = "running",
+) => {
   const [currentTime, setCurrentTime] = useState(seconds);
-  const intervfalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  const reset = () => {
+    clearInterval(intervalRef.current!);
+    setCurrentTime(seconds);
+  };
 
   useEffect(() => {
-    intervfalRef.current = setInterval(() => {
+    if (status === "paused") {
+      clearInterval(intervalRef.current!);
+      return;
+    }
+    intervalRef.current = setInterval(() => {
       setCurrentTime((prev) => {
         if (prev <= 1) {
-          clearInterval(intervfalRef.current!);
-          onEnd && onEnd();
+          clearInterval(intervalRef.current!);
           return 0;
         }
         return prev - 1;
       });
     }, 1000);
-    return () => clearInterval(intervfalRef.current!);
-  });
-
-  const reset = () => {
-    clearInterval(intervfalRef.current!);
-    setCurrentTime(seconds);
-  };
-
+    return () => clearInterval(intervalRef.current!);
+  }, []);
   return { currentTime, reset };
 };
 
