@@ -133,6 +133,17 @@ const Board = () => {
     }
   }, [deck, currentTime]);
 
+  useEffect(() => {
+    if (gameStatus === "SUCCESS" || gameStatus === "LOSE") {
+      const timer = setTimeout(() => {
+        const param = gameStatus === "SUCCESS" ? "success" : "lose";
+        window.location.href = `/finish?status=${param}`;
+      }, 700);
+
+      return () => clearTimeout(timer);
+    }
+  }, [gameStatus]);
+
   return (
     <div className="w-full h-full flex flex-col gap-6">
       <div className="w-full justify-between flex flex-row">

@@ -34,7 +34,7 @@ const SoundButton = ({ triggerSonud, canPlay }: ISoundButton) => {
     audioRef.current.volume = 0.5;
     audioRef.current.loop = true;
 
-    if (autplay) audioRef.current.play().catch(() => {});
+    if (autplay) audioRef.current.play();
 
     tickingRef.current = new Audio("ticking.mp3");
     tickingRef.current.volume = 0.5;
