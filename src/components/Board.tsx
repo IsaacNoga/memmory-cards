@@ -2,6 +2,7 @@ import React, { useMemo, useState } from "react";
 import Card, { type ICard } from "./Card";
 import Modal from "./Modal";
 import SoundButton from "./SoundButton";
+import useTimer from "../utils/hooks/useTimer";
 
 export interface ICards {
   id: string | null;
@@ -62,7 +63,9 @@ function generateDeck(): ICards[] {
 }
 
 const Board = () => {
+  const { currentTime } = useTimer(30);
   const [deck, setDeck] = useState(generateDeck());
+  const [gameStatus, setGameStatus] = useState();
   const [allowPlaying, setAllowPlaying] = useState<boolean>(false);
   const [showModal, setShowModal] = useState<"SUCCESS" | "ERROR" | null>(null);
 
@@ -114,15 +117,19 @@ const Board = () => {
   };
 
   return (
-    <div className="w-full h-full">
-      <div>
-        <SoundButton canPlay={setAllowPlaying} />
+    <div className="w-full h-full flex flex-col gap-6">
+      <div className="w-full justify-between flex flex-row">
+        <div className="flex flex-col">
+          <p className="text-white font-semibold text-2xl">Game Started!</p>
+          <p className="text-white font-semibold text-4xl">
+            Time Left: {currentTime}
+          </p>
+        </div>
+        <SoundButton
+          canPlay={setAllowPlaying}
+          triggerSonud={currentTime <= 10}
+        />
       </div>
-      <Modal
-        type={showModal}
-        onClose={() => setShowModal(null)}
-        soundStatus={allowPlaying}
-      />
       <div className="w-full grid grid-cols-4 gap-1 sm:gap-3 md:gap-10 lg:gap-20 sm:p-2">
         {deck.map((c) => (
           <Card
@@ -132,6 +139,11 @@ const Board = () => {
           />
         ))}
       </div>
+      <Modal
+        type={showModal}
+        onClose={() => setShowModal(null)}
+        soundStatus={allowPlaying}
+      />
     </div>
   );
 };
