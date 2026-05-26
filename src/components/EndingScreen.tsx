@@ -17,12 +17,12 @@ const EndingScreen = () => {
             </p>
           </div>
         )}
-        <div className="w-full flex flex-col gap-2 slide-up">
+        <div className="w-full flex flex-col gap-2 slide-up group">
           <p className="text-4xl text-white text-center font-bold">
             Your Score: {Number(score ?? 0).toLocaleString("en-US")}
           </p>
           <a
-            className="w-full hover:animate-bounce bg-yellow-400 px-6 py-4 text-3xl md:text-5xl font-semibold rounded-2xl text-white text-center shadow-pulse"
+            className="w-full group-hover:animate-bounce bg-yellow-400 px-6 py-4 text-3xl md:text-5xl font-semibold rounded-2xl text-white text-center"
             href="/board?origin=start"
           >
             PLAY AGAIN
