@@ -22,7 +22,7 @@ const EndingScreen = () => {
             Your Score: {Number(score ?? 0).toLocaleString("en-US")}
           </p>
           <a
-            className="w-full hover:animate-bounce bg-yellow-400 px-6 py-4 text-3xl md:text-5xl font-semibold rounded-2xl text-white text-center"
+            className="w-full hover:animate-bounce bg-yellow-400 px-6 py-4 text-3xl md:text-5xl font-semibold rounded-2xl text-white text-center shadow-pulse"
             href="/board?origin=start"
           >
             PLAY AGAIN

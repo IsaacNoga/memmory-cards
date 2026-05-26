@@ -191,7 +191,7 @@ const Board = () => {
           />
         ))}
       </div>
-      <div className="flex flex-row justify-between md:justify-center">
+      <div className="w-full flex flex-row justify-between md:justify-center gap-4">
         <p className="text-white text-2xl font-bold slide-down">
           Score: {score}
         </p>

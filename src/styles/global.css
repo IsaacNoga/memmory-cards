@@ -42,3 +42,12 @@
   animation: slideUp 0.6s ease-out 0.2s forwards;
   opacity: 0;
 }
+
+@keyframes shadow-pulse {
+  0%, 100% { box-shadow: 0 0 15px rgba(250, 204, 21, 0.4); }
+  50%       { box-shadow: 0 0 35px rgba(250, 204, 21, 0.9); }
+}
+
+.shadow-pulse {
+  animation: shadow-pulse 1.5s ease-in-out infinite;
+}

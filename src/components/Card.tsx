@@ -22,7 +22,7 @@ const Card = ({ img, state = "DOWN", onClick }: ICard) => {
         <div className="absolute inset-0 backface-hidden flex items-center justify-center bg-blue-400 hover:bg-blue-600 border-6 md:border-12 border-yellow-400 rounded-xl">
           <p className="text-6xl md:text-9xl text-yellow-500">?</p>
         </div>
-        <div className="absolute inset-0 rotate-y-180 backface-hidden flex items-center justify-center bg-blue-400 border-6 md:border-12 border-yellow-400 rounded-xl">
+        <div className="absolute inset-0 rotate-y-180 backface-hidden flex items-center justify-center bg-blue-400 border-6 md:border-12 border-yellow-400 rounded-xl shadow-pulse">
           <img src={img} className="w-16 md:w-24" />
         </div>
       </div>
