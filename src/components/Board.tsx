@@ -71,8 +71,36 @@ const Board = () => {
   const [gameStatus, setGameStatus] = useState<
     "PLAYING" | "SUCCESS" | "LOSE" | "ERROR" | null
   >("PLAYING");
-  const [allowPlaying, setAllowPlaying] = useState<boolean>(true);
+  const [allowPlaying, setAllowPlaying] = useState<boolean>(false);
   const [showModal, setShowModal] = useState<"SUCCESS" | "ERROR" | null>(null);
+  const [comboCounter, setComboCounter] = useState(0);
+  const [score, setScore] = useState(0);
+
+  const winPoints = () => {
+    if (currentTime <= 10) {
+      setScore((prev) => prev + currentTime * 100);
+    }
+    if (currentTime <= 20) {
+      setScore((prev) => prev + currentTime * 150);
+    }
+    if (currentTime <= 30) {
+      setScore((prev) => prev + currentTime * 200);
+    }
+  };
+
+  const losePoints = () => {
+    if (score <= 0) return;
+
+    if (currentTime <= 10) {
+      setScore((prev) => prev - currentTime * 30);
+    }
+    if (currentTime <= 20) {
+      setScore((prev) => prev - currentTime * 40);
+    }
+    if (currentTime <= 30) {
+      setScore((prev) => prev - currentTime * 50);
+    }
+  };
 
   const handleCardClick = (cardId: string) => {
     setDeck((prev) => {
@@ -86,6 +114,8 @@ const Board = () => {
           prevPairing.idPair === card.id || card.idPair === prevPairing.id;
 
         if (isMatch) {
+          setComboCounter((prev) => prev + 1);
+          winPoints();
           setShowModal("SUCCESS");
           return prev.map((c) =>
             c.id === prevPairing.id || c.id === card.id
@@ -93,6 +123,8 @@ const Board = () => {
               : c,
           );
         } else {
+          setComboCounter(0);
+          losePoints();
           setShowModal("ERROR");
         }
 
@@ -137,7 +169,7 @@ const Board = () => {
     if (gameStatus === "SUCCESS" || gameStatus === "LOSE") {
       const timer = setTimeout(() => {
         const param = gameStatus === "SUCCESS" ? "success" : "lose";
-        window.location.href = `/finish?status=${param}`;
+        window.location.href = `/finish?status=${param}&score=${score * comboCounter}`;
       }, 700);
 
       return () => clearTimeout(timer);
@@ -149,7 +181,7 @@ const Board = () => {
       <div className="w-full justify-between flex flex-row">
         <div className="flex flex-col">
           <p className="text-white font-semibold text-2xl">Game Started!</p>
-          <p className="text-white font-semibold text-4xl">
+          <p className="text-white font-semibold text-2xl">
             Time Left: {currentTime}
           </p>
         </div>
@@ -166,6 +198,16 @@ const Board = () => {
             {...c}
           />
         ))}
+      </div>
+      <div className="flex flex-row justify-between md:justify-center">
+        <p className="text-white text-2xl font-bold slide-down">
+          Score: {score}
+        </p>
+        {comboCounter > 1 && (
+          <p className="text-white text-2xl font-bold slide-down">
+            Combo! x{comboCounter}
+          </p>
+        )}
       </div>
       <Modal
         type={showModal}

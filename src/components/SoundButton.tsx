@@ -6,9 +6,7 @@ interface ISoundButton {
 }
 
 const SoundButton = ({ triggerSonud, canPlay }: ISoundButton) => {
-  const params = new URLSearchParams(window.location.search);
-  const autplay = params.get("origin") === "start";
-  const [allowPlaying, setAllowPlaying] = useState<boolean>(true);
+  const [allowPlaying, setAllowPlaying] = useState<boolean>(false);
 
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const tickingRef = useRef<HTMLAudioElement | null>(null);
@@ -33,8 +31,6 @@ const SoundButton = ({ triggerSonud, canPlay }: ISoundButton) => {
     audioRef.current = new Audio("background.mp3");
     audioRef.current.volume = 0.2;
     audioRef.current.loop = true;
-
-    if (autplay) audioRef.current.play();
 
     tickingRef.current = new Audio("ticking.mp3");
     tickingRef.current.volume = 0.2;
