@@ -14,7 +14,7 @@ const Modal = ({ type, soundStatus, onClose }: IModal) => {
     audio.volume = 0.5;
     audio.play();
   };
-  console.log(soundStatus)
+
   useEffect(() => {
     if (!type) return;
     const timer = setTimeout(() => {

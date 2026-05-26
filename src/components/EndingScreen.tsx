@@ -2,7 +2,7 @@ const EndingScreen = () => {
   const params = new URLSearchParams(window.location.search);
   const won = params.get("status") === "success";
   const score = params.get("score");
-  console.log(score);
+
   return (
     <div className="w-full h-full p-6">
       <div className="w-full h-full flex flex-col gap-6 items-center justify-center">

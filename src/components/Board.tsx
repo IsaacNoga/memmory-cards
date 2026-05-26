@@ -40,6 +40,12 @@ const baseCards: ICards[] = [
   },
 ];
 
+const scoreConfig = [
+  { max: 10, win: 100, lose: 30 },
+  { max: 20, win: 150, lose: 40 },
+  { max: 30, win: 200, lose: 50 },
+];
+
 function generateDeck(): ICards[] {
   const firstIds = baseCards.map((card) => ({
     id: crypto.randomUUID(),
@@ -76,30 +82,16 @@ const Board = () => {
   const [comboCounter, setComboCounter] = useState(0);
   const [score, setScore] = useState(0);
 
-  const winPoints = () => {
-    if (currentTime <= 10) {
-      setScore((prev) => prev + currentTime * 100);
-    }
-    if (currentTime <= 20) {
-      setScore((prev) => prev + currentTime * 150);
-    }
-    if (currentTime <= 30) {
-      setScore((prev) => prev + currentTime * 200);
-    }
-  };
+  const updateScore = (type: "win" | "lose") => {
+    const threshold = scoreConfig.find((t) => currentTime <= t.max);
+    if (!threshold) return;
 
-  const losePoints = () => {
-    if (score <= 0) return;
-
-    if (currentTime <= 10) {
-      setScore((prev) => prev - currentTime * 30);
-    }
-    if (currentTime <= 20) {
-      setScore((prev) => prev - currentTime * 40);
-    }
-    if (currentTime <= 30) {
-      setScore((prev) => prev - currentTime * 50);
-    }
+    setScore((prev) => {
+      if (type === "lose" && prev <= 0) return prev;
+      const multiplier = type === "win" ? threshold.win : threshold.lose;
+      const delta = currentTime * multiplier;
+      return type === "win" ? prev + delta : prev - delta;
+    });
   };
 
   const handleCardClick = (cardId: string) => {
@@ -115,7 +107,7 @@ const Board = () => {
 
         if (isMatch) {
           setComboCounter((prev) => prev + 1);
-          winPoints();
+          updateScore("win");
           setShowModal("SUCCESS");
           return prev.map((c) =>
             c.id === prevPairing.id || c.id === card.id
@@ -124,7 +116,7 @@ const Board = () => {
           );
         } else {
           setComboCounter(0);
-          losePoints();
+          updateScore("lose");
           setShowModal("ERROR");
         }
 
