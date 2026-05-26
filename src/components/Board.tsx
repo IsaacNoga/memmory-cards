@@ -71,7 +71,7 @@ const Board = () => {
   const [gameStatus, setGameStatus] = useState<
     "PLAYING" | "SUCCESS" | "LOSE" | "ERROR" | null
   >("PLAYING");
-  const [allowPlaying, setAllowPlaying] = useState<boolean>(false);
+  const [allowPlaying, setAllowPlaying] = useState<boolean>(true);
   const [showModal, setShowModal] = useState<"SUCCESS" | "ERROR" | null>(null);
 
   const handleCardClick = (cardId: string) => {

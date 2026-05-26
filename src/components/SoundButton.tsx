@@ -14,7 +14,7 @@ const SoundButton = ({ triggerSonud, canPlay }: ISoundButton) => {
   const tickingRef = useRef<HTMLAudioElement | null>(null);
 
   const toggleSound = useCallback(() => {
-    setAllowPlaying((prev) => {
+    setAllowPlaying((prev) => {  
       const next = !prev;
       canPlay(next);
 
@@ -31,13 +31,13 @@ const SoundButton = ({ triggerSonud, canPlay }: ISoundButton) => {
 
   useEffect(() => {
     audioRef.current = new Audio("background.mp3");
-    audioRef.current.volume = 0.5;
+    audioRef.current.volume = 0.2;
     audioRef.current.loop = true;
 
     if (autplay) audioRef.current.play();
 
     tickingRef.current = new Audio("ticking.mp3");
-    tickingRef.current.volume = 0.5;
+    tickingRef.current.volume = 0.2;
     tickingRef.current.loop = true;
 
     return () => {
